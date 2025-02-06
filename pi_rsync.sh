@@ -66,6 +66,11 @@ function process_sync()
                 RSYNC=$(sshpass -p "$PSW" rsync -e "ssh -i $IDENTITY_FILE" /etc/pihole/$FILE $USER@$HOST:/etc/pihole/)
         done
 
+        # Sync CNAME records
+        echo -e "Syncing \e[32m05-pihole-custom-cname.conf\e[39m from \e[32m/etc/dnsmasq.d/\e[39m to \e[32m{$HOST}\e[39m..."
+        sshpass -p "$PSW" rsync -e "ssh -i $IDENTITY_FILE" /etc/dnsmasq.d/05-pihole-custom-cname.conf $USER@$HOST:/etc/dnsmasq.d/
+
+        
         # Do updates, reload and restart dns
         echo -e "Running command \e[96mpkill pihole-FTL\e[39m on \e[32m{$HOST}\e[39m"
         sshpass -p "$PSW" ssh -i $IDENTITY_FILE $USER@$HOST "echo $PSW | sudo -S pkill pihole-FTL"
