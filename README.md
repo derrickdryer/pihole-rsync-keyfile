@@ -1,5 +1,8 @@
-# PiHole Rsync
-This script takes settings from a Master node of PiHole and syncs it to a Secondary PiHole. Check out my [blog post](https://jejje.net/2021-01-30-sync-two-pihole-dns-servers-for-failover)
+# PiHole Rsync Keyfile
+
+This is a forked version of the original that enables usage of keyfiles for authentication
+
+This script takes settings from a Master node of PiHole and syncs it to a Secondary PiHole. Check out the original [blog post](https://jejje.net/2021-01-30-sync-two-pihole-dns-servers-for-failover)
 
 ## The Problem
 Having only one DNS server will setup your home network to fail. It is best practice to have two separate DNS servers for a failover if the Primary fails or updates.
@@ -29,14 +32,16 @@ Setup these variables first
 ```shell
 #### Setup Vars ####
 # What files to RSYNC
-SYNCFILES=(gravity.db custom.list dhcp.leases local.list) 
+SYNCFILES=(gravity.db custom.list dhcp.leases local.list)
 # The Secondary PiHole Host
-HOST=192.168.0.114
+HOST=dns-prod-2
 # Username on Secondary HOST
-USER=pi
-# Password on Secondary HOST
-PSW=rasberry
-# Update interval for CRONJOB
+USER=root
+# Password on Secondary HOST, dont forget to change password
+PSW="UHXwfjaasGRjaF2Bca5$"
+# RSA Keyfile
+IDENTITY_FILE="~/.ssh/id_ed25519"
+# Update interval for CRONJOB in minutes
 CRONTIME=15
 ```
 
